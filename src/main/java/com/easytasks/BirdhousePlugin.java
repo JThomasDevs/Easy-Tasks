@@ -125,6 +125,7 @@ public class BirdhousePlugin extends Plugin implements TaskManager.TaskStateList
 	{
 		taskManager.removeTaskStateListener(this);
 		stopBirdhouseRun();
+		removeBirdhouseInfoBoxes();
 		clientToolbar.removeNavigation(navButton);
 		overlayManager.remove(stepGuidanceOverlay);
 		overlayManager.remove(teleportHighlightOverlay);
@@ -164,7 +165,6 @@ public class BirdhousePlugin extends Plugin implements TaskManager.TaskStateList
 
 	private void stopBirdhouseRun()
 	{
-		removeBirdhouseInfoBoxes();
 		taskManager.getTaskByType(BirdhouseTask.class).ifPresent(task -> {
 			taskManager.unregisterTask(task);
 			clientThread.invokeLater(() ->
@@ -172,10 +172,9 @@ public class BirdhousePlugin extends Plugin implements TaskManager.TaskStateList
 		});
 	}
 
-	/** Called when the final location completes; stops the run (unregisters task, removes infoboxes). */
+	/** Called when the final location completes; stops the run (unregisters task). */
 	private void onTaskComplete()
 	{
-		removeBirdhouseInfoBoxes();
 		taskManager.getTaskByType(BirdhouseTask.class).ifPresent(task -> {
 			taskManager.unregisterTask(task);
 		});
